@@ -6,6 +6,7 @@ import org.p2p.solanaj.core.PublicKey.ProgramDerivedAddress;
 import static org.junit.Assert.*;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 
 public class PublicKeyTest {
@@ -45,12 +46,12 @@ public class PublicKeyTest {
     }
 
     @Test
-    public void readPubkey() {
+    public void readPubkey() throws IOException {
         PublicKey key = new PublicKey("11111111111111111111111111111111");
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         bos.write(1);
-        bos.writeBytes(key.toByteArray());
+        bos.write(key.toByteArray());
 
         byte[] bytes = bos.toByteArray();
         assertEquals(key.toString(), PublicKey.readPubkey(bytes, 1).toString());

@@ -8,6 +8,7 @@ import org.p2p.solanaj.rpc.Cluster;
 import org.p2p.solanaj.rpc.RpcClient;
 import org.p2p.solanaj.rpc.RpcException;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertNotNull;
@@ -34,7 +35,7 @@ public class AnchorTest extends AccountBasedTest {
                 MemoProgram.writeUtf8(feePayer.getPublicKey(), "I just called an Anchor program from SolanaJ.")
         );
 
-        final List<Account> signers = List.of(feePayer);
+        final List<Account> signers = Collections.singletonList(feePayer);
         String result = null;
         try {
             result = client.getApi().sendTransaction(transaction, signers, null);

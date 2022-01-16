@@ -6,6 +6,7 @@ import org.p2p.solanaj.rpc.Cluster;
 import org.p2p.solanaj.rpc.RpcClient;
 import org.p2p.solanaj.token.TokenManager;
 
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.Assert.assertTrue;
@@ -22,7 +23,7 @@ public class AirdropTest extends AccountBasedTest {
     public final TokenManager tokenManager = new TokenManager(client);
 
     // List of recipients - ETL a file into this
-    private final List<PublicKey> recipients = List.of(publicKey);
+    private final List<PublicKey> recipients = Collections.singletonList(publicKey);
 
     private static final long AIRDROP_AMOUNT = 100;
     private static final byte AIRDROP_DECIMALS = 6;

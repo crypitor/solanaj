@@ -7,6 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 
 import org.bitcoinj.core.Base58;
@@ -44,7 +45,7 @@ public class TransactionTest {
                         )
                 )
                 .setRecentBlockHash("Eit7RCyhUixAe2hGBS8oqnw59QK3kgMMjfLME5bm9wRn")
-                .setSigners(List.of(signer))
+                .setSigners(Collections.singletonList(signer))
                 .build();
 
         assertEquals(

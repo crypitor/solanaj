@@ -50,7 +50,7 @@ public class MainnetTest extends AccountBasedTest {
     @Test
     public void getAccountInfoBase58() throws RpcException {
         // Get account Info
-        final AccountInfo accountInfo = client.getApi().getAccountInfo(PublicKey.valueOf("So11111111111111111111111111111111111111112"), Map.of("encoding", "base58"));
+        final AccountInfo accountInfo = client.getApi().getAccountInfo(PublicKey.valueOf("So11111111111111111111111111111111111111112"), Collections.singletonMap("encoding", "base58"));
         final double balance = (double) accountInfo.getValue().getLamports()/ LAMPORTS_PER_SOL;
 
         // Account data list
@@ -66,7 +66,7 @@ public class MainnetTest extends AccountBasedTest {
         try {
             // Get account Info
             final AccountInfo accountInfo = client.getApi().getAccountInfo(PublicKey.valueOf(
-                    "So11111111111111111111111111111111111111112"), Map.of("commitment", Commitment.ROOT));
+                    "So11111111111111111111111111111111111111112"), Collections.singletonMap("commitment", Commitment.ROOT));
             final double balance = (double) accountInfo.getValue().getLamports()/ LAMPORTS_PER_SOL;
 
             // Verify any balance
@@ -400,7 +400,7 @@ public class MainnetTest extends AccountBasedTest {
 
     @Test
     public void getTokenAccountsByOwnerTest() throws RpcException {
-        Map<String, Object> requiredParams = Map.of("mint", USDC_TOKEN_MINT);
+        Map<String, Object> requiredParams = Collections.singletonMap("mint", USDC_TOKEN_MINT);
         TokenAccountInfo tokenAccount = client.getApi().getTokenAccountsByOwner(PublicKey.valueOf(
                 "AoUnMozL1ZF4TYyVJkoxQWfjgKKtu8QUK9L4wFdEJick"), requiredParams, new HashMap<>());
         LOGGER.info(tokenAccount.toString());
@@ -412,7 +412,7 @@ public class MainnetTest extends AccountBasedTest {
 
     @Test
     public void getTokenAccountsByDelegateTest() throws RpcException {
-        Map<String, Object> requiredParams = Map.of("mint", USDC_TOKEN_MINT);
+        Map<String, Object> requiredParams = Collections.singletonMap("mint", USDC_TOKEN_MINT);
         TokenAccountInfo tokenAccount = client.getApi().getTokenAccountsByDelegate(PublicKey.valueOf(
                 "AoUnMozL1ZF4TYyVJkoxQWfjgKKtu8QUK9L4wFdEJick"), requiredParams, new HashMap<>());
         LOGGER.info(tokenAccount.toString());
@@ -511,7 +511,7 @@ public class MainnetTest extends AccountBasedTest {
     @Test
     public void simulateTransactionTest() throws RpcException {
         String transaction = "ASdDdWBaKXVRA+6flVFiZokic9gK0+r1JWgwGg/GJAkLSreYrGF4rbTCXNJvyut6K6hupJtm72GztLbWNmRF1Q4BAAEDBhrZ0FOHFUhTft4+JhhJo9+3/QL6vHWyI8jkatuFPQzrerzQ2HXrwm2hsYGjM5s+8qMWlbt6vbxngnO8rc3lqgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAy+KIwZmU8DLmYglP3bPzrlpDaKkGu6VIJJwTOYQmRfUBAgIAAQwCAAAAuAsAAAAAAAA=";
-        List<PublicKey> addresses = List.of(PublicKey.valueOf("QqCCvshxtqMAL2CVALqiJB7uEeE5mjSPsseQdDzsRUo"));
+        List<PublicKey> addresses = Collections.singletonList(PublicKey.valueOf("QqCCvshxtqMAL2CVALqiJB7uEeE5mjSPsseQdDzsRUo"));
         SimulatedTransaction simulatedTransaction = client.getApi().simulateTransaction(transaction, addresses);
         assertTrue(simulatedTransaction.getValue().getLogs().size() > 0);
     }
@@ -623,19 +623,19 @@ public class MainnetTest extends AccountBasedTest {
         assertNotNull(voteAccounts.getCurrent().get(0).getVotePubkey());
     }
 
-    @Test
-    @Ignore
-    public void getSignatureStatusesTest() throws RpcException {
-        SignatureStatuses signatureStatuses = client.getApi().getSignatureStatuses(
-                List.of(
-                        "3nVfYabxKv9ohGb4nXF3EyJQnbVcGVQAm2QKzdPrsemrP4D8UEZEzK8bCWgyTFif6mjo99akvHcCbxiEKzN5L9ZG",
-                        "5GvXGwBGocNuVAuTuDyXfxJYMx7SC1cs7owC5r48RNg9UAhTBUQ6irU932fpVAwrVy8WFCUct2RSvtKHUJBRfC5j"
-                ),
-                true
-        );
-
-        assertTrue(signatureStatuses.getValue().get(0).getConfirmationStatus().length() > 0);
-    }
+//    @Test
+//    @Ignore
+//    public void getSignatureStatusesTest() throws RpcException {
+//        SignatureStatuses signatureStatuses = client.getApi().getSignatureStatuses(
+//                List.of(
+//                        "3nVfYabxKv9ohGb4nXF3EyJQnbVcGVQAm2QKzdPrsemrP4D8UEZEzK8bCWgyTFif6mjo99akvHcCbxiEKzN5L9ZG",
+//                        "5GvXGwBGocNuVAuTuDyXfxJYMx7SC1cs7owC5r48RNg9UAhTBUQ6irU932fpVAwrVy8WFCUct2RSvtKHUJBRfC5j"
+//                ),
+//                true
+//        );
+//
+//        assertTrue(signatureStatuses.getValue().get(0).getConfirmationStatus().length() > 0);
+//    }
 
     @Test
     public void getRecentPerformanceSamplesLimitTest() throws RpcException {
@@ -678,16 +678,16 @@ public class MainnetTest extends AccountBasedTest {
         assertEquals("12oRmi8YDbqpkn326MdjwFeZ1bh3t7zVw8Nra2QK2SnR", leaderSchedules.get(0).getIdentity());
     }
 
-    @Test
-    public void getMultipleAccountsTest() throws RpcException {
-        List<AccountInfo.Value> accounts = client.getApi().getMultipleAccounts(
-                List.of(
-                        PublicKey.valueOf("skynetDj29GH6o6bAqoixCpDuYtWqi1rm8ZNx1hB3vq"),
-                        PublicKey.valueOf("namesLPneVptA9Z5rqUDD9tMTWEJwofgaYwp8cawRkX")
-                )
-        );
-
-        assertNotNull(accounts);
-        assertEquals(2, accounts.size());
-    }
+//    @Test
+//    public void getMultipleAccountsTest() throws RpcException {
+//        List<AccountInfo.Value> accounts = client.getApi().getMultipleAccounts(
+//                Collections.singletonList(
+//                        PublicKey.valueOf("skynetDj29GH6o6bAqoixCpDuYtWqi1rm8ZNx1hB3vq"),
+//                        PublicKey.valueOf("namesLPneVptA9Z5rqUDD9tMTWEJwofgaYwp8cawRkX")
+//                )
+//        );
+//
+//        assertNotNull(accounts);
+//        assertEquals(2, accounts.size());
+//    }
 }
