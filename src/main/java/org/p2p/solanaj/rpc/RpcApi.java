@@ -451,11 +451,11 @@ public class RpcApi {
     /**
      * Returns identity and transaction information about a confirmed block in the ledger
      */
-    public Block getBlock(int slot) throws RpcException {
+    public Block getBlock(long slot) throws RpcException {
         return getBlock(slot, null);
     }
 
-    public Block getBlock(int slot, Map<String, Object> optionalParams) throws RpcException {
+    public Block getBlock(long slot, Map<String, Object> optionalParams) throws RpcException {
         List<Object> params = new ArrayList<>();
 
         params.add(slot);
