@@ -1,12 +1,17 @@
 package org.p2p.solanaj.token;
 
+import org.bouncycastle.pqc.math.linearalgebra.ByteUtils;
 import org.p2p.solanaj.core.Account;
 import org.p2p.solanaj.core.PublicKey;
 import org.p2p.solanaj.core.Transaction;
+import org.p2p.solanaj.core.TransactionInstruction;
 import org.p2p.solanaj.programs.MemoProgram;
 import org.p2p.solanaj.programs.TokenProgram;
 import org.p2p.solanaj.rpc.RpcClient;
 import org.p2p.solanaj.rpc.RpcException;
+import org.p2p.solanaj.rpc.types.AccountInfo;
+
+import java.util.Arrays;
 
 /**
  * Manager class for calling {@link TokenProgram}-related APIs
@@ -51,17 +56,18 @@ public class TokenManager {
         return result;
     }
 
-    public String transferCheckedToSolAddress(final Account owner, final PublicKey source, final PublicKey destination, final PublicKey tokenMint, long amount, byte decimals) {
+    public String transferCheckedToSolAddress(final Account owner, final PublicKey source, final PublicKey destination, final PublicKey tokenMint, long amount, byte decimals) throws Exception {
         // getTokenAccountsByOwner
         PublicKey tokenAccount = null;
-
+        final Transaction transaction = new Transaction();
         try {
             tokenAccount = client.getApi().getTokenAccountsByOwner(destination, tokenMint);
         } catch (RpcException e) {
-            e.printStackTrace();
+            tokenAccount = TokenProgram.findAssociatedTokenAddress(destination, tokenMint);
+            TransactionInstruction instruction = TokenProgram.createAssociatedTokenAccount(owner.getPublicKey(), destination, tokenMint);
+            transaction.addInstruction(instruction);
         }
 
-        final Transaction transaction = new Transaction();
         // SPL token instruction
         transaction.addInstruction(
                 TokenProgram.transferChecked(

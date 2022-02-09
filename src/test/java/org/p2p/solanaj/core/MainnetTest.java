@@ -540,7 +540,7 @@ public class MainnetTest extends AccountBasedTest {
 
     @Test
     @Ignore
-    public void transferCheckedTest() {
+    public void transferCheckedTest() throws Exception {
         final PublicKey source = usdcSource; // Private key's USDC token account
         final PublicKey destination = solDestination;
 
